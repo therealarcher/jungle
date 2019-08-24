@@ -1,0 +1,9 @@
+Ability for admins to create Sale records
+  -name
+  -percent_off
+  -starts_on
+  -ends_on (date)
+
+-Once any sale is active, display it on the products#index page (home page) and affect the prices
+
+EDD (error driven development)
