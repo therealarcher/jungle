@@ -1,6 +1,6 @@
 class Product < ActiveRecord::Base
 
-  # monetize :price_cents, numericality: true
+  monetize :price_cents, numericality: true
   mount_uploader :image, ProductImageUploader
 
   # belongs_to :category
@@ -10,9 +10,10 @@ class Product < ActiveRecord::Base
   validates :quantity, presence: true
   validates :category, presence: true
 
-  def price
-    price_cents / 100.0
-  end
+  # commented this out.  monetize gem above was commented out when the below was active.
+  # def price
+  #   price_cents / 100.0
+  # end
 
   def category
     Category.find(category_id)
