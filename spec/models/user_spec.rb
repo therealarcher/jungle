@@ -47,7 +47,7 @@ RSpec.describe User, type: :model do
       @user.password_confirmation = 'abc'
       expect(@user).to_not be_valid
     end
-
+  end
   
   describe '.authenticate_with_credentials' do
     it 'should pass with valid credentials' do
@@ -56,19 +56,42 @@ RSpec.describe User, type: :model do
       @user.email = 'joe@gmail.com'
       @user.password = 'abc123'
       @user.password_confirmation = 'abc123'
-      expect(@user).to be_valid
+      @user.save
+      # expect(@user).to be_valid
+      expect(User.authenticate_with_credentials('joe@gmail.com', 'abc123')).to_not be_nil
     end
-
-    it 'should not pass with invalid credentials' do
+    
+    it 'should pass with email containing whitespace' do
       @user = User.new
       @user.name = 'Joe'
       @user.email = 'joe@gmail.com'
       @user.password = 'abc123'
-      @user.password_confirmation = 'abc124'
-      expect(@user).to_not be_valid
+      @user.password_confirmation = 'abc123'
+      @user.save
+      # expect(@user).to be_valid
+      expect(User.authenticate_with_credentials('    joe@gmail.com   ', 'abc123')).to_not be_nil
     end
-  end
-  
-
+    
+    it 'should pass with email containing whitespace' do
+      @user = User.new
+      @user.name = 'Joe'
+      @user.email = 'joe@gmail.com'
+      @user.password = 'abc123'
+      @user.password_confirmation = 'abc123'
+      @user.save
+      # expect(@user).to be_valid
+      expect(User.authenticate_with_credentials('    joe@gmail.com   ', 'abc123')).to_not be_nil
+    end
+    
+    it 'should pass with email containing upper case characters' do
+      @user = User.new
+      @user.name = 'Joe'
+      @user.email = 'joe@gmail.com'
+      @user.password = 'abc123'
+      @user.password_confirmation = 'abc123'
+      @user.save
+      # expect(@user).to be_valid
+      expect(User.authenticate_with_credentials('JOE@gmAIL.Com   ', 'abc123')).to_not be_nil
+    end
   end
 end
